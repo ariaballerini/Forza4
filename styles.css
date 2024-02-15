@@ -1,0 +1,100 @@
+:root{
+    --white: #FFFAEC;
+    --blue: #320d81;
+    --mediumblue: #210758;
+    --darkblue: #1d0c65;
+    --red: #EF233C;
+    --yellow: #F9DF74;
+    --grey: #e3e3e3;
+
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+html, body{
+    margin: 0;
+    height: 100vh;
+    background: url("./assets/background.svg") center no-repeat;
+    background-size: cover;
+}
+
+.container{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.tabellone{
+    background: var(--blue);
+    margin: 1.5rem;
+    padding: 2rem 2rem;
+    border: 0.3rem solid var(--mediumblue);
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.riga{
+    display: flex;
+}
+
+.cella{
+    padding: 0.5rem;
+    margin: 0.5rem;
+    height: 4rem;
+    width: 4rem;
+}
+
+.gettone{
+    height: 4rem;
+    width: 4rem;
+    border-radius: 50%;
+    border: 0.3rem solid var(--mediumblue);
+    background: var(--darkblue);
+
+}
+
+.red{
+    background: var(--red);
+    margin-bottom: 2rem;
+}
+
+.yellow{
+    background: var(--yellow);
+}
+
+.enabled{
+    transition: .1s
+}
+.enabled:hover{
+    background: var(--grey);
+    opacity: .3;
+}
+
+.scoresContainer{
+    padding: 4rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo{
+    width: 25rem;
+    padding-bottom: 3rem;
+}
+
+.scoreboard{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    border-radius: 15px;
+    width: 8rem;
+    height: 2rem;
+    font-size: 30px;
+    color: var(--white);
+}
