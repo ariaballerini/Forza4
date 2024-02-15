@@ -68,7 +68,7 @@ function clickHandler(event: PointerEvent) {
       buttonEnabler(Number(id[1]));
     //}
 
-    //checkVictory(Number(id[0]), Number(id[1]));
+    checkVictory(button, Number(id[0]), Number(id[1]));
   }
 }
 
@@ -85,16 +85,30 @@ function buttonDisabler(button: HTMLButtonElement){
 }*/
 
 
-/* function checkVictory (cell: number, row: number) {
+function checkVictory(button: HTMLButtonElement, cell: number, row: number) {
+  let color = button.classList.contains("yellow") ? "yellow" : "red";
+  let directions = [[0, 1], [1, 0], [1, 1], [1, -1]];
+  // le direzioni corrispondono rispettivamente a movimento orizzontale (sx-dx), verticale(su-giù), diagonale (dx, giù), diagonale (sx-giù)
+  // n° della cella + i (di quanto deve spostarsi) * in che direzione deve andare, seleziona il bottone in quella posizione e - se esiste - ed ha lo stesso colore, count++
+  // direction[0] corrisponde al primo numero della singola direzione es. [0,1] = 0 es. [1,0] = 1
+  // direction[1] corrisponde al secondo numero della singola direzione es. [0,1] = 1 es. [1,0] = 0
 
-    for (let i = 0, i < 4, i++> ) {
-        if ({cell}.classList.contains("yellow") &&
-            {cell+1}.classList.contains("yellow") &&
-            {cell+2}.classList.contains("yellow") &&
-            {cell+3}.classList.contains("yellow")){
-            console.log("You won!")
-        } else {
-            return;
+  for (let direction of directions) {
+    let count = 0;
+    for (let i = -3; i <= 3; i++) {
+      let nextCell = cell + i * direction[0];
+      let nextRow = row + i * direction[1];
+      let checkButton = document.getElementById(`cell-${nextCell}-row-${nextRow}`);
+      if (checkButton && checkButton.classList.contains(color)) {
+        count++;
+        if (count === 4) {
+          console.log("You won!");
+          return;
         }
+      } else {
+        count = 0;
+      }
     }
-} */
+  }
+}
+
