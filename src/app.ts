@@ -1,4 +1,5 @@
 const board = document.getElementById("board") as HTMLDivElement;
+const endGame = document.getElementById("end-game") as HTMLDivElement;
 let button = document.querySelector("button") as HTMLButtonElement;
 let turn: boolean = true;
 
@@ -105,7 +106,7 @@ function checkVictory(button: HTMLButtonElement, cell: number, row: number) {
       if (checkButton && checkButton.classList.contains(color)) {
         count++;
         if (count === 4) {
-          console.log("You won!");
+          showEndGame();
           return;
         }
       } else {
@@ -113,4 +114,9 @@ function checkVictory(button: HTMLButtonElement, cell: number, row: number) {
       }
     }
   }
+}
+
+function showEndGame(){
+  endGame.classList.add("visible");
+  endGame.classList.remove("hidden");
 }

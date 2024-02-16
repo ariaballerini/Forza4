@@ -6,6 +6,7 @@
     --red: #EF233C;
     --yellow: #F9DF74;
     --grey: #e3e3e3;
+    --black: rgba(0,0,0,.5);
 
     font-family: "Ubuntu", sans-serif;
     font-weight: 500;
@@ -23,6 +24,24 @@ html, body{
     display: flex;
     justify-content: space-around;
     width: 100%;
+    height: 100%;
+}
+
+#end-game{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--black);
+}
+
+.hidden{
+    visibility: hidden;
+    z-index: -1;
+}
+
+.visible{
+    visibility: visible;
+    z-index: 999;
 }
 
 .tabellone{
