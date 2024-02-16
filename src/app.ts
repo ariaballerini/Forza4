@@ -1,9 +1,33 @@
 const board = document.getElementById("board") as HTMLDivElement;
 const endGame = document.getElementById("end-game") as HTMLDivElement;
 let button = document.querySelector("button") as HTMLButtonElement;
-let turn: boolean = true;
 
-createBoard();
+const yellowScoreLabel = document.getElementById("yellow-score");
+const redScoreLabel = document.getElementById("red-score");
+
+let turn: boolean = true;
+let yellowVictoryCounter: number = 0;
+let redVictoryCounter: number = 0;
+
+function setScoreLabel(){
+  yellowScoreLabel.innerText = "Score: " + yellowVictoryCounter;
+  redScoreLabel.innerText = "Score: " + redVictoryCounter;
+}
+
+newGame();
+
+function newGame(){
+  let lastRow = board.lastElementChild;
+  while(lastRow){
+    board.removeChild(lastRow)
+    lastRow = board.lastElementChild;
+  }
+  createBoard();
+  setScoreLabel();
+  endGame.classList.remove("visible");
+  endGame.classList.add("hidden");
+  turn = true;
+}
 
 function createBoard() {
   for (let i = 6; i > 0; i--) {
@@ -70,7 +94,7 @@ function clickHandler(event: PointerEvent) {
     }
 
     buttonDisabler(cell, row);
-    buttonEnabler(cell, row+1);
+    if(row < 6){buttonEnabler(cell, row+1);}
 
     checkVictory(button, cell, row);
   }
@@ -106,7 +130,7 @@ function checkVictory(button: HTMLButtonElement, cell: number, row: number) {
       if (checkButton && checkButton.classList.contains(color)) {
         count++;
         if (count === 4) {
-          showEndGame();
+          showEndGame(color);
           return;
         }
       } else {
@@ -116,7 +140,9 @@ function checkVictory(button: HTMLButtonElement, cell: number, row: number) {
   }
 }
 
-function showEndGame(){
+function showEndGame(winner: string){
+  console.log("winner:" + winner);
   endGame.classList.add("visible");
   endGame.classList.remove("hidden");
+  winner == "red" ? redVictoryCounter++ : yellowVictoryCounter++;
 }
