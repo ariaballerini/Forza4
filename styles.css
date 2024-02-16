@@ -7,7 +7,7 @@
     --yellow: #F9DF74;
     --grey: #e3e3e3;
     --black: #000;
-    --blackFaded: rgba(0,0,0,.6);
+    --blackFaded: rgba(0,0,0,.7);
 
     font-family: "Ubuntu", sans-serif;
     font-weight: 500;
@@ -103,32 +103,53 @@ html, body{
     color: var(--white);
 }
 
+.popup{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 #end-game{
     position: absolute;
     top: 0;
-    left: 0;
     background-color: var(--blackFaded);
 }
 
 .message{
-    font-size: 6rem;
+    font-size: 10rem;
     color: var(--white);
     z-index: 10;
 }
 
 .playAgain{
-    color: var(--black) !important;
-    background-color: var(--grey);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    padding: 3rem;
+    border: none;
+    border-radius: 15px;
+    font-family: "Ubuntu", sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--white);
+    background-color: var(--blue);
+    max-width: 80%;
 }
 
 .hidden{
     font-size: 100px;
     visibility: hidden;
+    opacity: 0;
     z-index: -1;
 }
 
 .visible{
     visibility: visible;
+    opacity: 1;
+    transition: opacity .3s ease-in-out;
     z-index: 999;
-    background-image:url(./assets/confetti.gif);
+    background-image: url(./assets/confetti.gif);
+    background-size: 30%;
 }
