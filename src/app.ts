@@ -5,28 +5,32 @@ let button = document.querySelector("button") as HTMLButtonElement;
 const yellowScoreLabel = document.getElementById("yellow-score");
 const redScoreLabel = document.getElementById("red-score");
 
-let turn: boolean = true;
+enum Turn {
+  YELLOW = 1,
+  RED,
+}
 let yellowVictoryCounter: number = 0;
 let redVictoryCounter: number = 0;
-
-function setScoreLabel(){
+let currentTurn: Turn = Turn.RED;
+function setScoreLabel() {
   yellowScoreLabel.innerText = "Score: " + yellowVictoryCounter;
   redScoreLabel.innerText = "Score: " + redVictoryCounter;
 }
 
 newGame();
 
-function newGame(){
+function newGame() {
+  currentTurn = Turn.RED;
   let lastRow = board.lastElementChild;
-  while(lastRow){
-    board.removeChild(lastRow)
+  while (lastRow) {
+    board.removeChild(lastRow);
     lastRow = board.lastElementChild;
   }
   createBoard();
   setScoreLabel();
+  turnManager();
   endGame.classList.remove("visible");
   endGame.classList.add("hidden");
-  turn = true;
 }
 
 function createBoard() {
@@ -77,7 +81,6 @@ function createButton(cellIndex: number, rowIndex: number) {
 }
 
 function clickHandler(event: PointerEvent) {
-
   const button = event.target as HTMLButtonElement;
 
   let id = button.id.split("-");
@@ -85,18 +88,28 @@ function clickHandler(event: PointerEvent) {
   let row: number = Number(id[1]);
 
   if (button != undefined) {
-    if (turn) {
-      button.classList.add("yellow");
-      turn = false;
-    } else {
-      button.classList.add("red");
-      turn = true;
+    turnManager(button);
+    buttonDisabler(cell, row);
+    if (row < 6) {
+      buttonEnabler(cell, row + 1);
     }
 
-    buttonDisabler(cell, row);
-    if(row < 6){buttonEnabler(cell, row+1);}
-
     checkVictory(button, cell, row);
+  }
+}
+
+function turnManager(button?) {
+  console.log(currentTurn);
+  if (currentTurn == Turn.RED) {
+    if (button != undefined) button.classList.add("red");
+    redScoreLabel.classList.remove("redTurn");
+    yellowScoreLabel.classList.add("yellowTurn");
+    currentTurn = Turn.YELLOW;
+  } else {
+    if (button != undefined) button.classList.add("yellow");
+    yellowScoreLabel.classList.remove("yellowTurn");
+    redScoreLabel.classList.add("redTurn");
+    currentTurn = Turn.RED;
   }
 }
 
@@ -114,7 +127,12 @@ function buttonDisabler(cell: number, row: number) {
 
 function checkVictory(button: HTMLButtonElement, cell: number, row: number) {
   let color = button.classList.contains("yellow") ? "yellow" : "red";
-  let directions = [[0, 1], [1, 0], [1, 1], [1, -1]];
+  let directions = [
+    [0, 1],
+    [1, 0],
+    [1, 1],
+    [1, -1],
+  ];
 
   // le direzioni corrispondono rispettivamente a movimento orizzontale (sx-dx), verticale(su-giù), diagonale (dx, giù), diagonale (sx-giù)
   // n° della cella + i (di quanto deve spostarsi) * in che direzione deve andare, seleziona il bottone in quella posizione e - se esiste - ed ha lo stesso colore, count++
@@ -140,7 +158,7 @@ function checkVictory(button: HTMLButtonElement, cell: number, row: number) {
   }
 }
 
-function showEndGame(winner: string){
+function showEndGame(winner: string) {
   console.log("winner:" + winner);
   endGame.classList.add("visible");
   endGame.classList.remove("hidden");

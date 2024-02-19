@@ -4,7 +4,9 @@
     --mediumblue: #210758;
     --darkblue: #1d0c65;
     --red: #EF233C;
-    --yellow: #F9DF74;
+    --darkRed: #bc1a2c;
+    --yellow: #f8cb19;
+    --darkYellow: #d2a800;
     --grey: #e3e3e3;
     --black: #000;
     --blackFaded: rgba(0,0,0,.7);
@@ -62,11 +64,19 @@ html, body{
 
 .red{
     background: var(--red);
-    margin-bottom: 2rem;
+}
+
+.redTurn{
+    border: solid 5px var(--darkRed);
 }
 
 .yellow{
     background: var(--yellow);
+    margin-bottom: 2rem;
+}
+
+.yellowTurn{
+    border: solid 5px var(--darkYellow);
 }
 
 .enabled{
