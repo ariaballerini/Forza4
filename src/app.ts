@@ -1,38 +1,48 @@
+enum Turn {
+  YELLOW,
+  RED,
+}
+
 const board = document.getElementById("board") as HTMLDivElement;
 const endGame = document.getElementById("end-game") as HTMLDivElement;
-let button = document.querySelector("button") as HTMLButtonElement;
-
 const yellowScoreLabel = document.getElementById("yellow-score");
 const redScoreLabel = document.getElementById("red-score");
 
-enum Turn {
-  YELLOW = 1,
-  RED,
-}
+let button = document.querySelector("button") as HTMLButtonElement;
 let yellowVictoryCounter: number = 0;
 let redVictoryCounter: number = 0;
 let currentTurn: Turn = Turn.RED;
-function setScoreLabel() {
-  yellowScoreLabel.innerText = "Score: " + yellowVictoryCounter;
-  redScoreLabel.innerText = "Score: " + redVictoryCounter;
-}
 
 newGame();
 
+/**
+ * function to set default values and start a new game
+ */
 function newGame() {
   currentTurn = Turn.RED;
+  endGame.classList.remove("visible");
+  endGame.classList.add("hidden");
+
+  cleanBoard();
+  createBoard();
+  setScoreLabel();
+  turnManager();
+}
+
+/**
+ * resets board
+ */
+function cleanBoard() {
   let lastRow = board.lastElementChild;
   while (lastRow) {
     board.removeChild(lastRow);
     lastRow = board.lastElementChild;
   }
-  createBoard();
-  setScoreLabel();
-  turnManager();
-  endGame.classList.remove("visible");
-  endGame.classList.add("hidden");
 }
 
+/**
+ * creates board
+ */
 function createBoard() {
   for (let i = 6; i > 0; i--) {
     createRow(i);
@@ -43,31 +53,46 @@ function createBoard() {
   }
 }
 
+/**
+ * adds new row to board
+ * @param index represents the index of a single row
+ */
 function createRow(index: number) {
   const row = document.createElement("div") as HTMLDivElement;
   row.id = `row-${index}`;
-  row.classList.add("riga");
+  row.classList.add("row");
   if (board != undefined) {
     board.appendChild(row);
   }
 }
 
+/**
+ * adds new cell to single row
+ * @param cellIndex represents the index of a single cell
+ * @param rowIndex represents the index of a single row
+ */
 function createCell(cellIndex: number, rowIndex: number) {
   const row = document.getElementById("row-" + rowIndex) as HTMLDivElement;
   if (row != undefined) {
     const cell = document.createElement("div") as HTMLDivElement;
     cell.id = `cell-${cellIndex}-row-${rowIndex}`;
-    cell.classList.add("cella");
+    cell.classList.add("cell");
     row.appendChild(cell);
   }
 }
 
+/**
+ * creates a new button that equals a single coin
+ * @param cellIndex
+ * @param rowIndex
+ * both params give the exact position of the button to be generated
+ */
 function createButton(cellIndex: number, rowIndex: number) {
   const cell = document.getElementById(`cell-${cellIndex}-row-${rowIndex}`);
   if (cell != null) {
     const button = document.createElement("button") as HTMLButtonElement;
     button.id = `${cellIndex}-${rowIndex}`;
-    button.classList.add("gettone");
+    button.classList.add("coin");
     button.addEventListener("click", (event) => {
       clickHandler(event as PointerEvent);
     });
@@ -80,6 +105,10 @@ function createButton(cellIndex: number, rowIndex: number) {
   }
 }
 
+/**
+ * sets some cells as enabled (=can be clicked) and manages turns
+ * @param event mouse click
+ */
 function clickHandler(event: PointerEvent) {
   const button = event.target as HTMLButtonElement;
 
@@ -89,42 +118,57 @@ function clickHandler(event: PointerEvent) {
 
   if (button != undefined) {
     turnManager(button);
-    buttonDisabler(cell, row);
+    buttonManager(cell, row);
+
     if (row < 6) {
-      buttonEnabler(cell, row + 1);
+      buttonManager(cell, row + 1);
     }
 
     checkVictory(button, cell, row);
   }
 }
 
+/**
+ * sets the coins color depending on the turn
+ * @param button = coin (not required)
+ */
 function turnManager(button?) {
-  console.log(currentTurn);
   if (currentTurn == Turn.RED) {
     if (button != undefined) button.classList.add("red");
-    redScoreLabel.classList.remove("redTurn");
-    yellowScoreLabel.classList.add("yellowTurn");
+    redScoreLabel.classList.remove("red-turn");
+    yellowScoreLabel.classList.add("yellow-turn");
     currentTurn = Turn.YELLOW;
   } else {
     if (button != undefined) button.classList.add("yellow");
-    yellowScoreLabel.classList.remove("yellowTurn");
-    redScoreLabel.classList.add("redTurn");
+    yellowScoreLabel.classList.remove("yellow-turn");
+    redScoreLabel.classList.add("red-turn");
     currentTurn = Turn.RED;
   }
 }
 
-function buttonEnabler(cell: number, row: number) {
+/**
+ * disables/enables clickable buttons
+ * @param cell
+ * @param row
+ * both params are needed to locate the button position
+ */
+function buttonManager(cell: number, row: number) {
   const button = document.getElementById(`${cell}-${row}`) as HTMLButtonElement;
-  button.classList.add("enabled");
-  button.disabled = false;
+  if (button.disabled) {
+    button.classList.add("enabled");
+    button.disabled = false;
+  } else {
+    button.classList.remove("enabled");
+    button.disabled = true;
+  }
 }
 
-function buttonDisabler(cell: number, row: number) {
-  const button = document.getElementById(`${cell}-${row}`) as HTMLButtonElement;
-  button.classList.remove("enabled");
-  button.disabled = true;
-}
-
+/**
+ * implements the logic to check one's victory
+ * @param button takes the last button clicked
+ * @param cell takes its cell
+ * @param row takes its row
+ */
 function checkVictory(button: HTMLButtonElement, cell: number, row: number) {
   let color = button.classList.contains("yellow") ? "yellow" : "red";
   let directions = [
@@ -134,8 +178,9 @@ function checkVictory(button: HTMLButtonElement, cell: number, row: number) {
     [1, -1],
   ];
 
-  // le direzioni corrispondono rispettivamente a movimento orizzontale (sx-dx), verticale(su-giù), diagonale (dx, giù), diagonale (sx-giù)
-  // n° della cella + i (di quanto deve spostarsi) * in che direzione deve andare, seleziona il bottone in quella posizione e - se esiste - ed ha lo stesso colore, count++
+  // le direzioni (directions) corrispondono rispettivamente a movimento orizzontale (sx-dx), verticale(su-giù), diagonale (dx, giù), diagonale (sx-giù)
+  // n° della cella (cell) + di quanto deve spostarsi (i) * in che direzione deve andare (direction[]),
+  // seleziona il bottone in quella posizione e - se esiste - ed ha lo stesso colore, count++
   // direction[0] corrisponde al primo numero della singola direzione es. [0,1] = 0 es. [1,0] = 1
   // direction[1] corrisponde al secondo numero della singola direzione es. [0,1] = 1 es. [1,0] = 0
 
@@ -158,9 +203,20 @@ function checkVictory(button: HTMLButtonElement, cell: number, row: number) {
   }
 }
 
+/**
+ * switches the victory popup as visible
+ */
 function showEndGame(winner: string) {
-  console.log("winner:" + winner);
   endGame.classList.add("visible");
   endGame.classList.remove("hidden");
   winner == "red" ? redVictoryCounter++ : yellowVictoryCounter++;
+  setScoreLabel();
+}
+
+/**
+ * updates scoreboards with the new victory
+ */
+function setScoreLabel() {
+  yellowScoreLabel.innerText = "Score: " + yellowVictoryCounter;
+  redScoreLabel.innerText = "Score: " + redVictoryCounter;
 }
