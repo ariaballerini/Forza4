@@ -205,6 +205,20 @@ body {
 	margin-bottom: 3rem;
 }
 
+.game-mode {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font-size: 2rem;
+	color: var(--white);
+	cursor: pointer;
+	transition: 0.3s;
+}
+.game-mode:hover {
+	transform: scale(1.1);
+}
+
 .color-selection {
 	width: 35%;
 	aspect-ratio: 1/1;

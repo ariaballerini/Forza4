@@ -12,35 +12,29 @@ let button = document.querySelector("button") as HTMLButtonElement;
 let yellowVictoryCounter: number = 0;
 let redVictoryCounter: number = 0;
 let currentTurn: Turn;
-let currentGame = "singleGame";
+let gameType: string;
 
-selectColor();
+createBoard();
+setScoreLabel();
 
-/* Selezione tipo di partita (Single game or Best of three) */
-const gameSelection = <HTMLInputElement>document.getElementById('game-selection');
-gameSelection.addEventListener('change', ()=> {
-    currentGame = gameSelection.value;
-    console.log("The selected value is: ", currentGame);
-    newGame();
-});
+/**
+ * function to select the game type
+ */
+function selectGameType(type: string) {
+	gameType = type;
+	document.getElementById("game-modal").style.display = "none";
+	document.getElementById("color-modal").style.display = "flex";
+}
 
 /**
  * function to select the color of the first player
  */
-function selectColor() {
-	createBoard();
-	setScoreLabel();
-
-	document.getElementById("yellow").addEventListener("click", () => {
-		currentTurn = Turn.RED;
-		document.getElementById("modal").style.display = "none";
-		newGame();
-	});
-	document.getElementById("red").addEventListener("click", () => {
-		currentTurn = Turn.YELLOW;
-		document.getElementById("modal").style.display = "none";
-		newGame();
-	});
+function selectColor(turn: Turn) {
+	turn == Turn.YELLOW
+		? (currentTurn = Turn.YELLOW)
+		: (currentTurn = Turn.RED);
+	document.getElementById("color-modal").style.display = "none";
+	newGame();
 }
 
 /**
@@ -160,7 +154,7 @@ function clickHandler(event: PointerEvent) {
  * sets the coins color depending on the turn
  * @param button = coin (not required)
  */
-function turnManager(button?) {
+function turnManager(button?: HTMLButtonElement) {
 	if (currentTurn == Turn.RED) {
 		if (button != undefined) button.classList.add("red");
 		redScoreLabel.classList.remove("red-turn");
@@ -200,41 +194,40 @@ function buttonManager(cell: number, row: number) {
  * @param row takes its row
  */
 function checkVictory(button: HTMLButtonElement, cell: number, row: number) {
-  let color = button.classList.contains("yellow") ? "yellow" : "red";
-  let directions = [
-    [0, 1],
-    [1, 0],
-    [1, 1],
-    [1, -1],
-  ];
+	let color = button.classList.contains("yellow") ? "yellow" : "red";
+	let directions = [
+		[0, 1],
+		[1, 0],
+		[1, 1],
+		[1, -1],
+	];
 
-  // Controllo se il gioco è bestOfThreeGame
-  if(currentGame === 'bestOfThreeGame'){
+	// Controllo se il gioco è bestOfThreeGame
+	if (gameType === "bestOfThreeGame") {
+	}
+	// le direzioni (directions) corrispondono rispettivamente a movimento orizzontale (sx-dx), verticale(su-giù), diagonale (dx, giù), diagonale (sx-giù)
+	// n° della cella (cell) + di quanto deve spostarsi (i) * in che direzione deve andare (direction[]),
+	// seleziona il bottone in quella posizione e - se esiste - ed ha lo stesso colore, count++
+	// direction[0] corrisponde al primo numero della singola direzione es. [0,1] = 0 es. [1,0] = 1
+	// direction[1] corrisponde al secondo numero della singola direzione es. [0,1] = 1 es. [1,0] = 0
 
-  }
-  // le direzioni (directions) corrispondono rispettivamente a movimento orizzontale (sx-dx), verticale(su-giù), diagonale (dx, giù), diagonale (sx-giù)
-  // n° della cella (cell) + di quanto deve spostarsi (i) * in che direzione deve andare (direction[]),
-  // seleziona il bottone in quella posizione e - se esiste - ed ha lo stesso colore, count++
-  // direction[0] corrisponde al primo numero della singola direzione es. [0,1] = 0 es. [1,0] = 1
-  // direction[1] corrisponde al secondo numero della singola direzione es. [0,1] = 1 es. [1,0] = 0
-
-  for (let direction of directions) {
-    let count = 0;
-    for (let i = -3; i <= 3; i++) {
-      let nextCell = cell + i * direction[0];
-      let nextRow = row + i * direction[1];
-      let checkButton = document.getElementById(`${nextCell}-${nextRow}`);
-      if (checkButton && checkButton.classList.contains(color)) {
-        count++;
-        if (count === 4) {
-          showEndGame(color);
-          return;
-        }
-      } else {
-        count = 0;
-      }
-    }
-  }
+	for (let direction of directions) {
+		let count = 0;
+		for (let i = -3; i <= 3; i++) {
+			let nextCell = cell + i * direction[0];
+			let nextRow = row + i * direction[1];
+			let checkButton = document.getElementById(`${nextCell}-${nextRow}`);
+			if (checkButton && checkButton.classList.contains(color)) {
+				count++;
+				if (count === 4) {
+					showEndGame(color);
+					return;
+				}
+			} else {
+				count = 0;
+			}
+		}
+	}
 }
 
 /**

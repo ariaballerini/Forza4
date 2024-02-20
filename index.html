@@ -14,12 +14,41 @@
 	</head>
 
 	<body>
+		<!-- Select game modal -->
+		<div class="modal" id="game-modal">
+			<p>Seleziona Modalità</p>
+			<div class="modal-content">
+				<div
+					class="game-mode"
+					id="single-game"
+					onclick="selectGameType('single')"
+				>
+					Single Game
+				</div>
+				<div
+					class="game-mode"
+					id="multi-game"
+					onclick="selectGameType('multi')"
+				>
+					Tournament
+				</div>
+			</div>
+		</div>
+
 		<!-- Select color modal -->
-		<div class="modal" id="modal">
+		<div class="modal" id="color-modal" style="display: none">
 			<p>Seleziona Colore</p>
 			<div class="modal-content">
-				<div class="color-selection yellow-selection" id="yellow"></div>
-				<div class="color-selection red-selection" id="red"></div>
+				<div
+					class="color-selection yellow-selection"
+					id="yellow"
+					onclick="selectColor('yellow')"
+				></div>
+				<div
+					class="color-selection red-selection"
+					id="red"
+					onclick="selectColor('red')"
+				></div>
 			</div>
 		</div>
 
@@ -30,12 +59,8 @@
 				<img src="./assets/logo.png" class="logo" />
 				<div class="scoreboard yellow" id="yellow-score"></div>
 				<div class="scoreboard red" id="red-score"></div>
-				<div class="reset" onclick="resetScore()">
-					Reset Score
-				</div>
-				<div class="reset" onclick="resetBoard()">
-					Reset Board
-				</div>
+				<div class="reset" onclick="resetScore()">Reset Score</div>
+				<div class="reset" onclick="resetBoard()">Reset Board</div>
 			</div>
 		</div>
 
