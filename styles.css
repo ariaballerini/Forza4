@@ -219,15 +219,19 @@ body {
 	background: var(--red);
 }
 
-#reset-button{
-    margin-top: 30px;
-    padding: 10px;
-    border-radius: 8px;
-    border: none;
-}
-
-#yellow-score {
-    margin-top: 20px;
+.reset {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 1rem 2rem;
+	border-radius: 15px;
+	width: 12rem;
+	height: 2rem;
+	font-size: 2rem;
+	color: var(--white);
+	background-color: red;
+	margin-top: 2rem;
+	cursor: pointer;
 }
 
 select{

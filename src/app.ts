@@ -12,7 +12,7 @@ let button = document.querySelector("button") as HTMLButtonElement;
 let yellowVictoryCounter: number = 0;
 let redVictoryCounter: number = 0;
 let currentTurn: Turn;
-let currentGame = 'singleGame';
+let currentGame = "singleGame";
 
 selectColor();
 
@@ -255,10 +255,20 @@ function setScoreLabel() {
 	redScoreLabel.innerText = "Score: " + redVictoryCounter;
 }
 
-/* Button to reset board */
-
-const resetButton = document.getElementById('reset-button');
-resetButton.addEventListener('click', () => {
-    cleanBoard();
-    createBoard();
+/**
+ * resets the board
+ */
+const resetButton = document.getElementById("reset-button");
+resetButton.addEventListener("click", () => {
+	cleanBoard();
+	createBoard();
 });
+
+/**
+ * resets the score
+ */
+function resetScore() {
+	yellowVictoryCounter = 0;
+	redVictoryCounter = 0;
+	setScoreLabel();
+}
