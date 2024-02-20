@@ -233,3 +233,8 @@ body {
 	margin-top: 2rem;
 	cursor: pointer;
 }
+
+select{
+    padding: 10px;
+    border-radius: 8px;
+}

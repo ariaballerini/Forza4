@@ -17,13 +17,11 @@ let currentGame = "singleGame";
 selectColor();
 
 /* Selezione tipo di partita (Single game or Best of three) */
-const gameSelection = <HTMLInputElement>(
-	document.getElementById("game-selection")
-);
-gameSelection.addEventListener("change", () => {
-	currentGame = gameSelection.value;
-	console.log("The selected value is: ", currentGame);
-	newGame();
+const gameSelection = <HTMLInputElement>document.getElementById('game-selection');
+gameSelection.addEventListener('change', ()=> {
+    currentGame = gameSelection.value;
+    console.log("The selected value is: ", currentGame);
+    newGame();
 });
 
 /**
@@ -202,41 +200,41 @@ function buttonManager(cell: number, row: number) {
  * @param row takes its row
  */
 function checkVictory(button: HTMLButtonElement, cell: number, row: number) {
-	let color = button.classList.contains("yellow") ? "yellow" : "red";
-	let directions = [
-		[0, 1],
-		[1, 0],
-		[1, 1],
-		[1, -1],
-	];
+  let color = button.classList.contains("yellow") ? "yellow" : "red";
+  let directions = [
+    [0, 1],
+    [1, 0],
+    [1, 1],
+    [1, -1],
+  ];
 
-	// Controllo se il gioco è bestOfThreeGame
-	if (currentGame === "bestOfThreeGame") {
-	}
-	
-	// le direzioni (directions) corrispondono rispettivamente a movimento orizzontale (sx-dx), verticale(su-giù), diagonale (dx, giù), diagonale (sx-giù)
-	// n° della cella (cell) + di quanto deve spostarsi (i) * in che direzione deve andare (direction[]),
-	// seleziona il bottone in quella posizione e - se esiste - ed ha lo stesso colore, count++
-	// direction[0] corrisponde al primo numero della singola direzione es. [0,1] = 0 es. [1,0] = 1
-	// direction[1] corrisponde al secondo numero della singola direzione es. [0,1] = 1 es. [1,0] = 0
+  // Controllo se il gioco è bestOfThreeGame
+  if(currentGame === 'bestOfThreeGame'){
 
-	for (let direction of directions) {
-		let count = 0;
-		for (let i = -3; i <= 3; i++) {
-			let nextCell = cell + i * direction[0];
-			let nextRow = row + i * direction[1];
-			let checkButton = document.getElementById(`${nextCell}-${nextRow}`);
-			if (checkButton && checkButton.classList.contains(color)) {
-				count++;
-				if (count === 4) {
-					showEndGame(color);
-					return;
-				}
-			} else {
-				count = 0;
-			}
-		}
-	}
+  }
+  // le direzioni (directions) corrispondono rispettivamente a movimento orizzontale (sx-dx), verticale(su-giù), diagonale (dx, giù), diagonale (sx-giù)
+  // n° della cella (cell) + di quanto deve spostarsi (i) * in che direzione deve andare (direction[]),
+  // seleziona il bottone in quella posizione e - se esiste - ed ha lo stesso colore, count++
+  // direction[0] corrisponde al primo numero della singola direzione es. [0,1] = 0 es. [1,0] = 1
+  // direction[1] corrisponde al secondo numero della singola direzione es. [0,1] = 1 es. [1,0] = 0
+
+  for (let direction of directions) {
+    let count = 0;
+    for (let i = -3; i <= 3; i++) {
+      let nextCell = cell + i * direction[0];
+      let nextRow = row + i * direction[1];
+      let checkButton = document.getElementById(`${nextCell}-${nextRow}`);
+      if (checkButton && checkButton.classList.contains(color)) {
+        count++;
+        if (count === 4) {
+          showEndGame(color);
+          return;
+        }
+      } else {
+        count = 0;
+      }
+    }
+  }
 }
 
 /**
