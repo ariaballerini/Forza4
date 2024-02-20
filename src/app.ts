@@ -11,21 +11,40 @@ const redScoreLabel = document.getElementById("red-score");
 let button = document.querySelector("button") as HTMLButtonElement;
 let yellowVictoryCounter: number = 0;
 let redVictoryCounter: number = 0;
-let currentTurn: Turn = Turn.RED;
+let currentTurn: Turn;
 
-newGame();
+selectColor();
+
+/**
+ * function to select the color of the first player
+ */
+function selectColor() {
+	createBoard();
+	setScoreLabel();
+
+	document.getElementById("yellow").addEventListener("click", () => {
+		currentTurn = Turn.RED;
+		document.getElementById("modal").style.display = "none";
+		newGame();
+	});
+	document.getElementById("red").addEventListener("click", () => {
+		currentTurn = Turn.YELLOW;
+		document.getElementById("modal").style.display = "none";
+		newGame();
+	});
+}
 
 /**
  * function to set default values and start a new game
  */
 function newGame() {
-	currentTurn = Turn.RED;
+	console.log(currentTurn);
+
 	endGame.classList.remove("visible");
 	endGame.classList.add("hidden");
 
 	cleanBoard();
 	createBoard();
-	setScoreLabel();
 	turnManager();
 }
 
