@@ -25,3 +25,8 @@ HTML/CSS - Logo
 HTML/CSS - Scoreboards
 TS - Play again
 TS - Let the player choose the color
+
+Task secondo gruppo:
+- Selezionare con che colore iniziare
+- Tasto reset
+- Selezionare tipo di partita (Singola o il primo che arriva a tre vittorie)
