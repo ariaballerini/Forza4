@@ -12,6 +12,16 @@ let button = document.querySelector("button") as HTMLButtonElement;
 let yellowVictoryCounter: number = 0;
 let redVictoryCounter: number = 0;
 let currentTurn: Turn = Turn.RED;
+let currentGame = 'singleGame';
+
+/* Selezione tipo di partita (Single game or Best of three) */
+
+const gameSelection = <HTMLInputElement>document.getElementById('game-selection');
+gameSelection.addEventListener('change', ()=> {
+    currentGame = gameSelection.value;
+    console.log("The selected value is: ", currentGame);
+    newGame();
+});
 
 newGame();
 
@@ -178,6 +188,10 @@ function checkVictory(button: HTMLButtonElement, cell: number, row: number) {
     [1, -1],
   ];
 
+  // Controllo se il gioco è bestOfThreeGame
+  if(currentGame === 'bestOfThreeGame'){
+
+  }
   // le direzioni (directions) corrispondono rispettivamente a movimento orizzontale (sx-dx), verticale(su-giù), diagonale (dx, giù), diagonale (sx-giù)
   // n° della cella (cell) + di quanto deve spostarsi (i) * in che direzione deve andare (direction[]),
   // seleziona il bottone in quella posizione e - se esiste - ed ha lo stesso colore, count++
@@ -220,3 +234,11 @@ function setScoreLabel() {
   yellowScoreLabel.innerText = "Score: " + yellowVictoryCounter;
   redScoreLabel.innerText = "Score: " + redVictoryCounter;
 }
+
+/* Button to reset board */
+
+const resetButton = document.getElementById('reset-button');
+resetButton.addEventListener('click', () => {
+    cleanBoard();
+    createBoard();
+});

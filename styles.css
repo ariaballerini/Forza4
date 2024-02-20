@@ -171,3 +171,19 @@ html, body{
     background-image: url(./assets/confetti.gif);
     background-size: 30%;
 }
+
+#reset-button{
+    margin-top: 30px;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+}
+
+#yellow-score {
+    margin-top: 20px;
+}
+
+select{
+    padding: 10px;
+    border-radius: 8px;
+}
