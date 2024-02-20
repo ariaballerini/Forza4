@@ -258,11 +258,10 @@ function setScoreLabel() {
 /**
  * resets the board
  */
-const resetButton = document.getElementById("reset-button");
-resetButton.addEventListener("click", () => {
+function resetBoard() {
 	cleanBoard();
 	createBoard();
-});
+}
 
 /**
  * resets the score

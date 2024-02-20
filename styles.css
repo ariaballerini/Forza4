@@ -229,12 +229,16 @@ body {
 	height: 2rem;
 	font-size: 2rem;
 	color: var(--white);
-	background-color: red;
-	margin-top: 2rem;
+	background-color: var(--black);
+	margin-top: 1rem;
 	cursor: pointer;
+	transition: 0.3s;
+}
+.reset:hover {
+	transform: scale(1.1);
 }
 
-select{
-    padding: 10px;
-    border-radius: 8px;
+select {
+	padding: 10px;
+	border-radius: 8px;
 }
