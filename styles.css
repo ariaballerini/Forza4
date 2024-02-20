@@ -218,3 +218,18 @@ body {
 .red-selection {
 	background: var(--red);
 }
+
+.reset {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 1rem 2rem;
+	border-radius: 15px;
+	width: 12rem;
+	height: 2rem;
+	font-size: 2rem;
+	color: var(--white);
+	background-color: red;
+	margin-top: 2rem;
+	cursor: pointer;
+}

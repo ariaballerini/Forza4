@@ -257,7 +257,9 @@ function setScoreLabel() {
 	redScoreLabel.innerText = "Score: " + redVictoryCounter;
 }
 
-/* Button to reset board */
+/**
+ * resets the board
+ */
 const resetButton = document.getElementById("reset-button");
 resetButton.addEventListener("click", () => {
 	cleanBoard();
